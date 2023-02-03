@@ -1,0 +1,18 @@
+.skills {
+  padding: 24px 32px;
+}
+
+.skills .container {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.skills input,
+.skills input::placeholder {
+  background-color: #2cc8aa;
+  border-radius: 5px;
+  padding: 6px 4px;
+  font-size: 14px;
+}

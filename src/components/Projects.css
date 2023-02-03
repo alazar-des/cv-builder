@@ -1,0 +1,29 @@
+.project input,
+.project input::placeholder {
+  color: black;
+  font-size: 14px;
+  font-style: normal;
+  width: 100%;
+}
+
+.project-datePicker {
+  width: 90px;
+}
+
+.project-range {
+  display: flex;
+  gap: 2px;
+  overflow: hidden;
+  width: 200px;
+}
+
+.technologies {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.technologies span {
+  color: #255958;
+  font-size: 12px;
+  font-style: italic;
+}

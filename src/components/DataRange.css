@@ -1,0 +1,39 @@
+.range-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.datepicker-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.datepicker-container .day-month-year,
+.datepicker-container .month-year {
+  text-align: center;
+  padding: 2px 0;
+}
+
+.datepicker-container input[type="text"].day-month-year,
+.datepicker-container input[type="text"].month-year {
+  text-align: left;
+  font-size: 12px;
+}
+
+.datepicker-container .day-month-year {
+  width: 80px;
+}
+
+.datepicker-container .month-year {
+  width: 60px;
+}
+
+.to {
+  color: #030303;
+}
+
+input[type=date]::placeholder {
+  color: #ffffff7c;
+}

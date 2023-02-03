@@ -1,0 +1,39 @@
+.acheivment h4 {
+  color: #255958;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.contact-person,
+.contact-person input,
+.contact-person input::placeholder {
+  color: #000;
+  font-style: italic;
+  font-size: 12px;
+  padding-right: 2px;
+}
+
+.contact-person input::placeholder,
+.education-form textarea::placeholder {
+  color: #00000059;
+}
+.contact-person {
+  color: #255958;
+}
+
+.education-form textarea {
+  color: #000;
+}
+
+.sub-title {
+  color: #255958;
+  font-size: 12px;
+  font-style: italic;
+  margin: 12px 0px 8px;
+}
+
+.education-form textarea,
+.education-form textarea::placeholder {
+  font-size: 13px;
+  font-style: italic;
+}

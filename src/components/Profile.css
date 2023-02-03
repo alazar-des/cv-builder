@@ -1,0 +1,34 @@
+.profile {
+  background-color: #2cc8aa;
+  padding: 24px 32px;
+}
+
+input,
+input::placeholder,
+textarea,
+textarea::placeholder {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  font-family: Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+#name {
+  font-size: 32px;
+}
+
+#professional-title,
+#professional-title::placeholder {
+  font-size: 18px;
+  color: #255958;
+  margin-bottom: 12px;
+}
+
+textarea {
+  resize: none;
+  width: 100%;
+  font-family: Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  overflow: auto;
+}

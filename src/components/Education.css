@@ -1,0 +1,48 @@
+.education {
+  padding: 0px 32px;
+}
+
+.education-form {
+  margin-bottom: 14px;
+}
+
+.title {
+  font-size: 22px;
+  color: #255958;
+  padding-bottom: 2px;
+  width: fit-content;
+  border-bottom: 3px solid #255958;
+  text-transform: uppercase;
+  margin: 14px 0;
+}
+
+.education input,
+.education input::placeholder,
+.checkbox-label {
+  color: #000000;
+  font-style: italic;
+  font-size: 12px;
+  width: fit-content;
+}
+
+.education input::placeholder,
+.education input[type=checkbox] {
+  color: #00000059;
+}
+
+.program input,
+.program input::placeholder {
+  color: black;
+  font-size: 18px;
+  font-style: normal;
+  width: 100%;
+}
+
+.program input::placeholder {
+  color: #00000059;
+}
+
+input.study {
+    font-weight: bold;
+    font-size: 20px;
+}

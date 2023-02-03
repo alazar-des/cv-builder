@@ -1,0 +1,26 @@
+.contacts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: #29aa94;
+  padding: 8px 24px;
+  gap: 16px;
+}
+
+.contacts div {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  justify-items: center;
+}
+
+.icon {
+  color: #fff;
+  size: 20px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #ffffff7c;
+}
+
