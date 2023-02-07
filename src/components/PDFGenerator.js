@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
   contact: {
     flexDirection: "row",
     alignItems: "center",
+    marginRight: 16,
   },
   link: {
     textDecoration: "none",
@@ -59,8 +60,7 @@ const styles = StyleSheet.create({
   contactText: {
     fontFamily: "Ubuntu",
     color: "white",
-    fontSize: 11,
-    marginRight: 24,
+    fontSize: 10,
   },
   icon: {
     width: 30,
@@ -198,12 +198,11 @@ const MyDocument = (props) => (
     <Page size="A4" style={styles.page}>
       <View style={styles.profile}>
         <Text style={styles.name}>{props.content.profile.name}</Text>
-        <Text style={styles.profession}>Full-Stack Developer</Text>
+        <Text style={styles.profession}>
+          {props.content.profile.professionalTitle}
+        </Text>
         <Text style={styles.summery}>
-          Software Engineer with fundamental knowledge on designing, building,
-          maintaining and testing of backend based applications. Seeking to
-          purse an opportunity with a growing organization that will utilize and
-          enhance my knowledge in software development.
+          {props.content.profile.professionalSummery}
         </Text>
       </View>
       <View style={styles.contacts}>
@@ -215,19 +214,25 @@ const MyDocument = (props) => (
               strokeWidth={1}
             />
           </Svg>
-          <Text style={styles.contactText}>alazaronemail@gmail.com</Text>
+          <Text style={styles.contactText}>{props.content.contacts.email}</Text>
         </View>
         <View style={styles.contact}>
-          <Text style={styles.contactText}>+251960803488</Text>
+          <Text style={styles.contactText}>
+            {props.content.contacts.telephone}
+          </Text>
         </View>
         <View style={styles.contact}>
           <Link href="https://www.alazar-desta.com" style={styles.link}>
-            <Text style={styles.contactText}>alazar-desta.com</Text>
+            <Text style={styles.contactText}>
+              {props.content.contacts.github}
+            </Text>
           </Link>
         </View>
         <View style={styles.contact}>
           <Link href="https://github.com/alazar-des" style={styles.link}>
-            <Text style={styles.contactText}>alazar-des</Text>
+            <Text style={styles.contactText}>
+              {props.content.contacts.website}
+            </Text>
           </Link>
         </View>
         <View style={styles.contact}>
@@ -235,254 +240,111 @@ const MyDocument = (props) => (
             href="https://www.linkedin.com/in/alazar-desta-5b35a990/"
             style={styles.link}
           >
-            <Text style={styles.contactText}>alazar-desta</Text>
+            <Text style={styles.contactText}>
+              {props.content.contacts.linkedin}
+            </Text>
           </Link>
         </View>
       </View>
       <View style={styles.container}>
         <Text style={styles.title}>Skills</Text>
         <View style={styles.skillsContainer}>
-          <Text style={styles.skill}>Javascript</Text>
-          <Text style={styles.skill}>React</Text>
-          <Text style={styles.skill}>Node.js</Text>
-          <Text style={styles.skill}>Mongodb</Text>
-          <Text style={styles.skill}>Typescript</Text>
-          <Text style={styles.skill}>SQL</Text>
-          <Text style={styles.skill}>CSS</Text>
-          <Text style={styles.skill}>HTML</Text>
-          <Text style={styles.skill}>Tailwind</Text>
-          <Text style={styles.skill}>Python</Text>
-          <Text style={styles.skill}>Flask</Text>
-          <Text style={styles.skill}>C</Text>
-          <Text style={styles.skill}>Git</Text>
-          <Text style={styles.skill}>Gitlab</Text>
-          <Text style={styles.skill}>Matlab</Text>
+          {Object.keys(props.content.skills).map((id) => (
+            <Text style={styles.skill} key={id}>
+              {props.content.skills[id]}
+            </Text>
+          ))}
         </View>
       </View>
       <View style={styles.container}>
         <Text style={styles.title}>Education</Text>
-        <View style={styles.detailContainer}>
-          <Text style={styles.subtitle1}>
-            Communication and Electronics Engineering (BSc)
-          </Text>
-          <Text style={styles.subtitle2}>
-            Mekelle Institute of Technology | Mekelle, Tigray
-          </Text>
-          <Text style={styles.duration}>10/2008 - 07/2012</Text>
-        </View>
-        <View style={styles.detailContainer}>
-          <Text style={styles.subtitle1}>Software Engineering</Text>
-          <Text style={styles.subtitle2}>
-            ALX Holberton Software Engineering Programme
-          </Text>
-          <Text style={styles.duration}>01/2021 - 02/2022</Text>
-        </View>
+        {props.content.educations.map((edu) => (
+          <View style={styles.detailContainer} key={edu.id}>
+            <Text style={styles.subtitle1}>{edu.studyProgram}</Text>
+            <Text style={styles.subtitle2}>{edu.institution}</Text>
+            <Text style={styles.duration}>
+              {edu.startDate ? edu.startDate.toLocaleDateString() : ""} {" - "}
+              {edu.present
+                ? "present"
+                : edu.endDate
+                ? edu.endDate.toLocaleDateString()
+                : ""}
+            </Text>
+          </View>
+        ))}
       </View>
       <View style={styles.container}>
         <Text style={styles.title}>Experience</Text>
-        <View style={styles.detailContainer}>
-          <Text style={styles.subtitle1}>System Engineer</Text>
-          <Text style={styles.subtitle2}>NBT Engineering and Trading PLC</Text>
-          <Text style={styles.duration}>09/2014 - 06/2021</Text>
-          <View style={styles.achievments}>
-            <Text style={styles.achievmentsTitle}>Achievements/Tasks</Text>
-            <View style={styles.list}>
-              <View style={styles.item}>
-                <Text style={styles.bulletPoint}>•</Text>
-                <Text style={styles.itemContent}>
-                  Perform requirement, functional and architectural designs and
-                  design calculations of radar system
-                </Text>
-              </View>
-              <View style={styles.item}>
-                <Text style={styles.bulletPoint}>•</Text>
-                <Text style={styles.itemContent}>
-                  Algorithm development for radar system and implementation in
-                  MATLAB and
-                </Text>
-              </View>
-              <View style={styles.item}>
-                <Text style={styles.bulletPoint}>•</Text>
-                <Text style={styles.itemContent}>
-                  Testing with cppunit c++ framework and Matlab
-                </Text>
+        {props.content.experiences.map((exp) => (
+          <View style={styles.detailContainer} key={exp.id}>
+            <Text style={styles.subtitle1}>{exp.position}</Text>
+            <Text style={styles.subtitle2}>{exp.company}</Text>
+            <Text style={styles.duration}>
+              {exp.startDate ? exp.startDate.toLocaleDateString() : ""} {" - "}
+              {exp.present
+                ? "present"
+                : exp.endDate
+                ? exp.endDate.toLocaleDateString()
+                : ""}
+            </Text>
+            <View style={styles.achievments}>
+              <Text style={styles.achievmentsTitle}>Achievements/Tasks</Text>
+              <View style={styles.list}>
+                {exp.achievments.map((ach) => (
+                  <View style={styles.item} key={ach.id}>
+                    <Text style={styles.bulletPoint}>•</Text>
+                    <Text style={styles.itemContent}>{ach.value}</Text>
+                  </View>
+                ))}
               </View>
             </View>
-          </View>
-          <View style={styles.contactPerson}>
-            <Text style={styles.contactTitle}>Contact:</Text>
-            <Text style={styles.contactContent}>Bisrat Tadesse</Text>
-            <Text style={styles.contactContent}>-</Text>
-            <Text style={styles.contactContent}>
-              bisrat.tadesse@nbtengineering.com
-            </Text>
-          </View>
-        </View>
-        <View style={styles.detailContainer}>
-          <Text style={styles.subtitle1}>System Engineer</Text>
-          <Text style={styles.subtitle2}>NBT Engineering and Trading PLC</Text>
-          <Text style={styles.duration}>09/2014 - 06/2021</Text>
-          <View style={styles.achievments}>
-            <Text style={styles.achievmentsTitle}>Achievements/Tasks</Text>
-            <View style={styles.list}>
-              <View style={styles.item}>
-                <Text style={styles.bulletPoint}>•</Text>
-                <Text style={styles.itemContent}>
-                  Perform requirement, functional and architectural designs and
-                  design calculations of radar system
-                </Text>
-              </View>
-              <View style={styles.item}>
-                <Text style={styles.bulletPoint}>•</Text>
-                <Text style={styles.itemContent}>
-                  Algorithm development for radar system and implementation in
-                  MATLAB and
-                </Text>
-              </View>
-              <View style={styles.item}>
-                <Text style={styles.bulletPoint}>•</Text>
-                <Text style={styles.itemContent}>
-                  Testing with cppunit c++ framework and Matlab
-                </Text>
-              </View>
+            <View style={styles.contactPerson}>
+              <Text style={styles.contactTitle}>Contact:</Text>
+              <Text style={styles.contactContent}>{exp.contactName}</Text>
+              <Text style={styles.contactContent}>-</Text>
+              <Text style={styles.contactContent}>{exp.contactEmail}</Text>
             </View>
           </View>
-          <View style={styles.contactPerson}>
-            <Text style={styles.contactTitle}>Contact:</Text>
-            <Text style={styles.contactContent}>Bisrat Tadesse</Text>
-            <Text style={styles.contactContent}>-</Text>
-            <Text style={styles.contactContent}>
-              bisrat.tadesse@nbtengineering.com
-            </Text>
-          </View>
-        </View>
+        ))}
       </View>
       <View style={styles.container}>
         <Text style={styles.title}>Projects</Text>
-        <View style={styles.detailContainer}>
-          <Text style={styles.subtitle1}>System Engineer</Text>
-          <Text style={styles.subtitle2}>NBT Engineering and Trading PLC</Text>
-          <Text style={styles.duration}>09/2014 - 06/2021</Text>
-          <View style={styles.achievments}>
-            <Text style={styles.achievmentsTitle}>Achievements/Tasks</Text>
-            <View style={styles.list}>
-              <View style={styles.item}>
-                <Text style={styles.bulletPoint}>•</Text>
-                <Text style={styles.itemContent}>
-                  Perform requirement, functional and architectural designs and
-                  design calculations of radar system
-                </Text>
-              </View>
-              <View style={styles.item}>
-                <Text style={styles.bulletPoint}>•</Text>
-                <Text style={styles.itemContent}>
-                  Algorithm development for radar system and implementation in
-                  MATLAB and
-                </Text>
-              </View>
-              <View style={styles.item}>
-                <Text style={styles.bulletPoint}>•</Text>
-                <Text style={styles.itemContent}>
-                  Testing with cppunit c++ framework and Matlab
-                </Text>
+        {props.content.projects.map((project) => (
+          <View style={styles.detailContainer} key={project.id}>
+            <View style={styles.projectTitleContainer}>
+              <Text style={styles.projectTitle}>{project.projectName}</Text>
+              <Text style={styles.duration}>{"  ("}
+                {project.startDate
+                  ? project.startDate.toLocaleDateString()
+                  : ""}{" "}
+                {" - "}
+                {project.present
+                  ? "present"
+                  : project.endDate
+                  ? project.endDate.toLocaleDateString()
+                  : ""}
+                  {")"}
+              </Text>
+            </View>
+            <View style={styles.achievments}>
+              <Text style={styles.achievmentsTitle}>Achievements/Tasks</Text>
+              <View style={styles.list}>
+                {project.achievments.map((ach) => (
+                  <View style={styles.item} key={ach.id}>
+                    <Text style={styles.bulletPoint}>•</Text>
+                    <Text style={styles.itemContent}>{ach.value}</Text>
+                  </View>
+                ))}
               </View>
             </View>
-          </View>
-          <View style={styles.contactPerson}>
-            <Text style={styles.contactTitle}>Contact:</Text>
-            <Text style={styles.contactContent}>Bisrat Tadesse</Text>
-            <Text style={styles.contactContent}>-</Text>
-            <Text style={styles.contactContent}>
-              bisrat.tadesse@nbtengineering.com
-            </Text>
-          </View>
-        </View>
-        <View style={styles.detailContainer}>
-          <View style={styles.projectTitleContainer}>
-            <Text style={styles.projectTitle}>Video Streaming App</Text>
-            <Text style={styles.ProjectDuration}>(02/2022 - 03/2022)</Text>
-          </View>
-          <View style={styles.achievments}>
-            <Text style={styles.achievmentsTitle}>Achievements/Tasks</Text>
-            <View style={styles.list}>
-              <View style={styles.item}>
-                <Text style={styles.bulletPoint}>•</Text>
-                <Text style={styles.itemContent}>
-                  A user registers and/or logs into the app to watch videos or
-                  live broadcasts or to upload videos or live streams. Used
-                  node.js and express as the server side, react as the front end
-                  and mongodb as a data base to implement.
-                </Text>
-              </View>
-              <View style={styles.item}>
-                <Text style={styles.bulletPoint}>•</Text>
-                <Text style={styles.itemContent}>
-                  Passport.js is used on the server side to manage user
-                  authentication. Multer is used to save and retrieve uploaded
-                  videos. Node Media Server is used to handle live video
-                  streaming.
-                </Text>
-              </View>
-              <View style={styles.item}>
-                <Text style={styles.bulletPoint}>•</Text>
-                <Text style={styles.itemContent}>
-                  React and Bootstrap are used to create the front end.
-                </Text>
-              </View>
+            <View style={styles.contactPerson}>
+              <Text style={styles.contactTitle}>
+                Languages/Frameworks/Libraries:
+              </Text>
+              <Text style={styles.contactContent}>{project.technologies}</Text>
             </View>
           </View>
-          <View style={styles.contactPerson}>
-            <Text style={styles.contactTitle}>
-              Languages/Frameworks/Libraries:
-            </Text>
-            <Text style={styles.contactContent}>
-              Node.js | mongodb | passport.js | React | Bootstrap
-            </Text>
-          </View>
-        </View>
-        <View style={styles.detailContainer}>
-          <View style={styles.projectTitleContainer}>
-            <Text style={styles.projectTitle}>Video Streaming App</Text>
-            <Text style={styles.ProjectDuration}>(02/2022 - 03/2022)</Text>
-          </View>
-          <View style={styles.achievments}>
-            <Text style={styles.achievmentsTitle}>Achievements/Tasks</Text>
-            <View style={styles.list}>
-              <View style={styles.item}>
-                <Text style={styles.bulletPoint}>•</Text>
-                <Text style={styles.itemContent}>
-                  A user registers and/or logs into the app to watch videos or
-                  live broadcasts or to upload videos or live streams. Used
-                  node.js and express as the server side, react as the front end
-                  and mongodb as a data base to implement.
-                </Text>
-              </View>
-              <View style={styles.item}>
-                <Text style={styles.bulletPoint}>•</Text>
-                <Text style={styles.itemContent}>
-                  Passport.js is used on the server side to manage user
-                  authentication. Multer is used to save and retrieve uploaded
-                  videos. Node Media Server is used to handle live video
-                  streaming.
-                </Text>
-              </View>
-              <View style={styles.item}>
-                <Text style={styles.bulletPoint}>•</Text>
-                <Text style={styles.itemContent}>
-                  React and Bootstrap are used to create the front end.
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.technologiesContainer}>
-            <Text style={styles.contactTitle}>
-              Languages/Frameworks/Libraries:
-            </Text>
-            <Text style={styles.technologies}>
-              Node.js | mongodb | passport.js | React | Bootstrap
-            </Text>
-          </View>
-        </View>
+        ))}
       </View>
     </Page>
   </Document>

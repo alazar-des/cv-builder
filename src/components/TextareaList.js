@@ -6,38 +6,34 @@ import "./TextareaList.css";
 export default class TextareaList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      textArea: [
-        {
-          id: uuid(),
-          rows: "1",
-          value: "",
-        },
-      ],
-    };
     this.listTextArea = React.createRef();
     this.onChange = this.onChange.bind(this);
     this.onEnter = this.onEnter.bind(this);
     this.onBackspace = this.onBackspace.bind(this);
   }
 
-  onChange(e, id) {
-    const value = e.target.value;
+  onChange(event, id) {
+    const value = event.target.value;
     if (value[value.length - 1] !== "\n") {
-      this.setState({
-        textArea: this.state.textArea.map((t) => {
-          if (t.id === id) {
-            t.value = value;
-            t.rows = Math.ceil(value.length / this.props.cols);
-          }
-          return t;
-        }),
+      const textArea = this.props.textAreaList.map((t) => {
+        if (t.id === id) {
+          t.value = value;
+          t.rows = Math.ceil(value.length / this.props.cols);
+        }
+        return t;
       });
+      const e = {
+        target: {
+          name: this.props.name,
+          value: textArea,
+        },
+      };
+      this.props.onChange(e, this.props.index);
     }
   }
 
-  onEnter(e, id) {
-    const index = this.state.textArea.findIndex((ta) => ta.id === id) + 1;
+  onEnter(event, id) {
+    const index = this.props.textAreaList.findIndex((ta) => ta.id === id) + 1;
     this.listTextArea.current = index;
     const li = {
       id: uuid(),
@@ -45,31 +41,40 @@ export default class TextareaList extends React.Component {
       value: "",
     };
     let newArr = [
-      ...this.state.textArea.slice(0, index),
+      ...this.props.textAreaList.slice(0, index),
       li,
-      ...this.state.textArea.slice(index),
+      ...this.props.textAreaList.slice(index),
     ];
-    this.setState({
-      textArea: newArr,
-    });
+    const e = {
+      target: {
+        name: this.props.name,
+        value: newArr,
+      },
+    };
+    this.props.onChange(e, this.props.index);
   }
 
-  onBackspace(e, id) {
-    if (this.state.textArea.length > 1) {
-      const index = this.state.textArea.findIndex((ta) => ta.id === id);
+  onBackspace(event, id) {
+    if (this.props.textAreaList.length > 1) {
+      const index = this.props.textAreaList.findIndex((ta) => ta.id === id);
       this.listTextArea.current = index - 1;
       let newArr = [
-        ...this.state.textArea.slice(0, index),
-        ...this.state.textArea.slice(index + 1),
+        ...this.props.textAreaList.slice(0, index),
+        ...this.props.textAreaList.slice(index + 1),
       ];
-      this.setState({
-        textArea: newArr,
-      });
+      const e = {
+        target: {
+          name: this.props.name,
+          value: newArr,
+        },
+      };
+      this.props.onChange(e, this.props.index);
     }
   }
 
+  /*
   getSnapshotBeforeUpdate(prevProps, prevState) {
-    if (prevState.textArea.length !== this.state.textArea.length) {
+    if (prevProps.textAreaList.length !== this.props.textAreaList.length) {
       return this.listTextArea.current;
     }
     return null;
@@ -80,12 +85,12 @@ export default class TextareaList extends React.Component {
       const nodeList = document.querySelectorAll(".textarea-list li textarea");
       nodeList[snapShot].focus();
     }
-  }
+  }*/
 
   render() {
     return (
       <ul className="textarea-list">
-        {this.state.textArea.map((ta) => {
+        {this.props.textAreaList.map((ta) => {
           return (
             <li key={ta.id}>
               <textarea
@@ -102,7 +107,9 @@ export default class TextareaList extends React.Component {
                     ? this.onBackspace(e, ta.id)
                     : null
                 }
-              >{this.props.placeholder}</textarea>
+              >
+                {this.props.placeholder}
+              </textarea>
             </li>
           );
         })}

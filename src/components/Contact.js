@@ -11,26 +11,12 @@ import { CgWebsite } from "react-icons/cg";
 export default class Contact extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      email: {value: "", width: 8},
-      telephone: {value: "", width: 8},
-      github: {value: "", width: 8},
-      website: {value: "", width: 8},
-      linkedin: {value: "", width: 8},
-    };
-
     this.onChange = this.onChange.bind(this);
   }
 
-  onChange(target, width) {
-    const name = target.name;
-    const value = target.value;
-    this.setState({
-      [name]: {
-        value,
-        width
-      },
-    });
+  onChange(e) {
+    const contacts = { ...this.props.contacts, [e.target.name]: e.target.value };
+    this.props.onContentChange("contacts", contacts)
   }
 
   render() {
@@ -44,8 +30,7 @@ export default class Contact extends React.Component {
             type="email"
             name="email"
             placeholder="Email"
-            size={this.state.email.width}
-            value={this.state.email.value}
+            value={this.props.contacts.email}
             onInputChange={this.onChange}
             defaultSize={8}
           />
@@ -58,8 +43,7 @@ export default class Contact extends React.Component {
             type="tel"
             name="telephone"
             placeholder="phone"
-            size={this.state.telephone.width}
-            value={this.state.telephone.value}
+            value={this.props.contacts.telephone}
             onInputChange={this.onChange}
             defaultSize={8}
           />
@@ -72,8 +56,7 @@ export default class Contact extends React.Component {
             type="link"
             name="github"
             placeholder="Github"
-            size={this.state.github.width}
-            value={this.state.github.value}
+            value={this.props.contacts.github}
             onInputChange={this.onChange}
             defaultSize={8}
           />
@@ -86,8 +69,7 @@ export default class Contact extends React.Component {
             type="link"
             name="website"
             placeholder="Website"
-            size={this.state.website.width}
-            value={this.state.website.value}
+            value={this.props.contacts.website}
             onInputChange={this.onChange}
             defaultSize={8}
           />
@@ -100,8 +82,7 @@ export default class Contact extends React.Component {
             type="link"
             name="linkedin"
             placeholder="Linkedin"
-            size={this.state.linkedin.width}
-            value={this.state.linkedin.value}
+            value={this.props.contacts.linkedin}
             onInputChange={this.onChange}
             defaultSize={8}
           />

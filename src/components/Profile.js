@@ -1,23 +1,17 @@
 import React from "react";
 import "./Profile.css";
 
-import Textarea from "./TextArea";
+import TextArea from "./TextArea";
 
 export default class Profile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: "",
-      professionalTitle: "",
-      professionalSummery: "",
-    };
     this.onChange = this.onChange.bind(this);
   }
 
   onChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
+    const profile = { ...this.props.profile, [e.target.name]: e.target.value };
+    this.props.onContentChange("profile", profile);
   }
 
   render() {
@@ -28,7 +22,7 @@ export default class Profile extends React.Component {
           placeholder="Name"
           name="name"
           id="name"
-          value={this.state.name}
+          value={this.props.profile.name}
           onChange={this.onChange}
         />
         <br />
@@ -37,16 +31,16 @@ export default class Profile extends React.Component {
           name="professionalTitle"
           placeholder="Professional Title"
           id="professional-title"
-          value={this.state.professionalTitle}
+          value={this.props.profile.professionalTitle}
           onChange={this.onChange}
         />
         <br />
-        <Textarea
+        <TextArea
           name="professionalSummery"
           placeholder="professional summery"
           cols="120"
           id="summery"
-          value={this.state.professionalSummery}
+          value={this.props.profile.professionalSummery}
           onChange={this.onChange}
         />
       </fieldset>

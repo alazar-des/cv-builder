@@ -13,79 +13,60 @@ import { BsTrash } from "react-icons/bs";
 export default class Experience extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      experienceList: [
-        {
-          id: uuid(),
-          position: "",
-          company: "",
-          dateRange: {
-            startDate: null,
-            endDate: null,
-            present: false,
-          },
-          acheivments: [],
-          contactName: "",
-          contactEmail: "",
-        },
-      ],
-    };
-
     this.addExperience = this.addExperience.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.deleteExperience = this.deleteExperience.bind(this);
   }
 
-  onChange(e, experience) {
+  onChange(e, index) {
     const name = e.target.name;
     const value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    this.setState({
-      experienceList: this.state.experienceList.map((exp) => {
-        if (exp.id === experience.id) {
-          exp[name] = value;
-        }
-        return exp;
-      }),
-    });
+    let experiences = [...this.props.experiences];
+    experiences[index] = { ...this.props.experiences[index], [name]: value };
+    this.props.onContentChange("experiences", experiences);
   }
 
   addExperience(index) {
+    console.log(this.props.experiences)
     const experience = {
       id: uuid(),
       position: "",
       company: "",
-      dateRange: {
-        startDate: null,
-        endDate: null,
-        present: false,
-      },
-      acheivments: [],
+      startDate: null,
+      endDate: null,
+      present: false,
+      achievments: [
+        {
+          id: uuid(),
+          rows: "1",
+          value: "",
+        },
+      ],
       contactName: "",
       contactEmail: "",
     };
-    this.setState({
-      experienceList: [
-        ...this.state.experienceList.slice(0, index + 1),
-        experience,
-        ...this.state.experienceList.slice(index + 1),
-      ],
-    });
+    const experienceList = [
+      ...this.props.experiences.slice(0, index + 1),
+      experience,
+      ...this.props.experiences.slice(index + 1),
+    ];
+    this.props.onContentChange("experiences", experienceList);
   }
 
   deleteExperience(index) {
-    this.setState({
-      experienceList: [
-        ...this.state.experienceList.slice(0, index),
-        ...this.state.experienceList.slice(index + 1),
-      ],
-    });
+    const experienceList = [
+      ...this.props.experiences.slice(0, index),
+      ...this.props.experiences.slice(index + 1),
+    ];
+    this.props.onContentChange("experiences", experienceList);
   }
 
   render() {
-    return this.state.experienceList.length ? (
+    return this.props.experiences.length ? (
       <div className="education">
         <h1 className="title">Experience</h1>
-        {this.state.experienceList.map((experience, index) => (
+        {this.props.experiences.map((experience, index) => (
           <fieldset className="education-form" key={experience.id}>
             <div className="program">
               <input
@@ -94,7 +75,7 @@ export default class Experience extends React.Component {
                 name="position"
                 className="study"
                 value={experience.position}
-                onChange={(e) => this.onChange(e, experience)}
+                onChange={(e) => this.onChange(e, index)}
               />
               <br />
               <input
@@ -102,32 +83,50 @@ export default class Experience extends React.Component {
                 placeholder="Company"
                 name="company"
                 value={experience.company}
-                onChange={(e) => this.onChange(e, experience)}
+                onChange={(e) => this.onChange(e, index)}
               />
             </div>
             <DateRange
               dateFormat="MM/yyyy"
               monthYearPicker={true}
               placeholder="mm/yyyy"
+              startDate={experience.startDate}
+              endDate={experience.endDate}
+              present={experience.present}
+              index={index}
+              onChange={this.onChange}
             />
             <p className="sub-title">Achievements/Tasks</p>
-            <TextareaList cols="120" placeholder="Aad your achievment" />
+            <TextareaList
+              cols="120"
+              placeholder="Aad your achievment"
+              name="achievments"
+              textAreaList={experience.achievments}
+              onChange={this.onChange}
+              index={index}
+            />
             <div className="contact-person">
               <span>Contact: </span>
               <Input
                 type="text"
                 placeholder="Name"
                 name="contactName"
-                size={5}
+                defaultSize={5}
                 alignText="center"
+                value={experience.contactName}
+                onInputChange={this.onChange}
+                index={index}
               />
               <span> - </span>
               <Input
                 type="text"
                 placeholder="Email"
                 name="contactEmail"
-                size={5}
+                defaultSize={5}
                 alignText="center"
+                value={experience.contactEmail}
+                onInputChange={this.onChange}
+                index={index}
               />
             </div>
             <div className="icons">

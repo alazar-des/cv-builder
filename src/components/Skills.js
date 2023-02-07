@@ -10,42 +10,20 @@ import uuid from "react-uuid";
 export default class Skills extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      skills: [
-        {
-          id: uuid(),
-          value: "",
-          size: 6,
-        },
-      ],
-    };
     this.addSkill = this.addSkill.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.onBlur = this.onBlur.bind(this);
   }
 
-  onChange(target, size) {
-    const id = target.id;
-    const value = target.value;
-    this.setState({
-      skills: this.state.skills.map((skill) => {
-        if (skill.id === id) {
-          return {
-            id,
-            value,
-            size,
-          };
-        }
-        return skill;
-      }),
-    });
+  onChange(e) {
+    const skills = { ...this.props.skills, [e.target.id]: e.target.value };
+    this.props.onContentChange("skills", skills);
   }
 
   addSkill() {
-    this.setState({
-      skills: [...this.state.skills, { id: uuid(), value: "", size: 6 }],
-    });
+    const skills = { ...this.props.skills, [uuid()]: "" };
+    this.props.onContentChange("skills", skills);
   }
 
   onFocus() {
@@ -59,6 +37,7 @@ export default class Skills extends React.Component {
   }
 
   render() {
+    const ids = Object.keys(this.props.skills);
     return (
       <div
         className="skills"
@@ -68,15 +47,14 @@ export default class Skills extends React.Component {
       >
         <h1 className="title">Skills</h1>
         <div className="container">
-          {this.state.skills.map((skill) => (
+          {ids.map((id) => (
             <Input
               type="text"
-              id={skill.id}
+              id={id}
               placeholder="skill"
-              size={skill.size}
               alignText="center"
-              key={skill.id}
-              value={skill.value}
+              key={id}
+              value={this.props.skills[id]}
               onInputChange={this.onChange}
               defaultSize={6}
             />

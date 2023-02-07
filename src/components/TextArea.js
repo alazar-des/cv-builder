@@ -7,12 +7,12 @@ export default class Textarea extends React.Component {
       textareaRows: "1",
       value: "",
     };
-    this.onChange = this.onChange.bind(this);
+    this.onTextareaChange = this.onTextareaChange.bind(this);
   }
 
-  onChange(event) {
-    let value = event.target.value;
-    let cols = event.target.cols;
+  onTextareaChange(e) {
+    let value = e.target.value;
+    let cols = e.target.cols;
     let rows = 0;
     value.split("\n").forEach((line) => {
       let r = Math.ceil(line.length / cols);
@@ -23,6 +23,7 @@ export default class Textarea extends React.Component {
       textareaRows: rows + "",
       value: value,
     });
+    this.props.onChange(e, this.props.index)
   }
 
   render() {
@@ -35,7 +36,7 @@ export default class Textarea extends React.Component {
         rows={this.state.textareaRows}
         placeholder={placeholder}
         value={this.state.value}
-        onChange={this.onChange}
+        onChange={this.onTextareaChange}
       ></textarea>
     );
   }

@@ -6,6 +6,10 @@
   width: 100%;
 }
 
+.project input::placeholder {
+  color: #00000059;
+}
+
 .project-datePicker {
   width: 90px;
 }

@@ -10,35 +10,17 @@ import { BsTrash } from "react-icons/bs";
 export default class Education extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      educationList: [
-        {
-          id: uuid(),
-          studyProgram: "",
-          institution: "",
-          startDate: null,
-          endDate: null,
-          present: false,
-        },
-      ],
-    };
-
     this.addEducation = this.addEducation.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
-  onChange(e, education) {
+  onChange(e, index) {
     const name = e.target.name;
     const value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    this.setState({
-      educationList: this.state.educationList.map((edu) => {
-        if (edu.id === education.id) {
-          edu[name] = value;
-        }
-        return edu;
-      }),
-    });
+    let educations = [...this.props.educations];
+    educations[index] = { ...this.props.educations[index], [name]: value };
+    this.props.onContentChange("educations", educations);
   }
 
   addEducation(index) {
@@ -46,36 +28,32 @@ export default class Education extends React.Component {
       id: uuid(),
       studyProgram: "",
       institution: "",
-      dateRange: {
-        startDate: null,
-        endDate: null,
-        present: false,
-      },
+      startDate: null,
+      endDate: null,
+      present: false,
     };
-    this.setState({
-      educationList: [
-        ...this.state.educationList.slice(0, index + 1),
-        education,
-        ...this.state.educationList.slice(index + 1),
-      ],
-    });
+    const educationList = [
+      ...this.props.educations.slice(0, index + 1),
+      education,
+      ...this.props.educations.slice(index + 1),
+    ];
+    this.props.onContentChange("educations", educationList);
   }
 
   deleteEducation(index) {
-    this.setState({
-      educationList: [
-        ...this.state.educationList.slice(0, index),
-        ...this.state.educationList.slice(index + 1),
-      ],
-    });
+    const educationList = [
+      ...this.props.educations.slice(0, index),
+      ...this.props.educations.slice(index + 1),
+    ];
+    this.props.onContentChange("educations", educationList);
   }
 
   render() {
-    return this.state.educationList.length ? (
+    return this.props.educations.length ? (
       <div className="education">
         <h1 className="title">Education</h1>
-        {this.state.educationList.map((education, index) => (
-          <fieldset className="education-form" key={education.id} >
+        {this.props.educations.map((education, index) => (
+          <fieldset className="education-form" key={education.id}>
             <div className="program">
               <input
                 type="text"
@@ -83,7 +61,7 @@ export default class Education extends React.Component {
                 className="study"
                 name="studyProgram"
                 value={education.studyProgram}
-                onChange={(e) => this.onChange(e, education)}
+                onChange={(e) => this.onChange(e, index)}
               />
               <br />
               <input
@@ -91,13 +69,18 @@ export default class Education extends React.Component {
                 placeholder="Institution/Study Program"
                 name="institution"
                 value={education.institution}
-                onChange={(e) => this.onChange(e, education)}
+                onChange={(e) => this.onChange(e, index)}
               />
             </div>
             <DateRange
               dateFormat="MM/yyyy"
               monthYearPicker={true}
               placeholder="mm/yyyy"
+              startDate={education.startDate}
+              endDate={education.endDate}
+              present={education.present}
+              index={index}
+              onChange={this.onChange}
             />
             <div className="icons">
               <CgAdd

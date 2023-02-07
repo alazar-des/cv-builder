@@ -6,39 +6,46 @@ import "./DataRange.css";
 export default class DateRange extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      startDate: null,
-      endDate: null,
-      present: false,
-    };
+    this.onChange = this.onChange.bind(this);
   }
+
+  onChange = (name, value) => {
+    const e = {
+      target: {
+        name,
+        value,
+      },
+    };
+    this.props.onChange(e, this.props.index);
+  };
 
   render() {
     return (
       <div className="range-container">
         <div className="datepicker-container">
           <DatePicker
-            selected={this.state.startDate}
+            selected={this.props.startDate}
             placeholderText={this.props.placeholder}
             dateFormat={this.props.dateFormat}
             showMonthYearPicker={this.props.monthYearPicker}
             className={
               this.props.monthYearPicker ? "month-year" : "day-month-year"
             }
-            onChange={(date) => this.setState({ startDate: date })}
+            onChange={(date) => this.onChange("startDate", date )}
           />
           <div className="to"> - </div>
-          {!this.state.present ? (
+          {!this.props.present ? (
             <DatePicker
-              selected={this.state.endDate}
+              selected={this.props.endDate}
               placeholderText={this.props.placeholder}
               dateFormat={this.props.dateFormat}
               showMonthYearPicker={this.props.monthYearPicker}
               className={
                 this.props.monthYearPicker ? "month-year" : "day-month-year"
               }
-              minDate={this.state.startDate}
-              onChange={(date) => this.setState({ endDate: date })}
+              minDate={this.props.startDate}
+              name="endDate"
+              onChange={(date) => this.onChange("endDate", date )}
             />
           ) : (
             <input
@@ -54,8 +61,8 @@ export default class DateRange extends React.Component {
         <div className="present">
           <input
             type="checkbox"
-            checked={this.state.present}
-            onChange={(e) => this.setState({ present: e.target.checked })}
+            checked={this.props.present}
+            onChange={(e) => this.onChange("present", e.target.checked )}
           />
           <label htmlFor="checkbox" className="checkbox-label">
             Present
