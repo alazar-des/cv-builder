@@ -16,7 +16,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "<strong>HTTPS=true</strong> react-scripts start",
+    "start": "HTTPS=true react-scripts start",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",
@@ -49,5 +49,5 @@
   "devDependencies": {
     "gh-pages": "^5.0.0"
   },
-  "homepage": "http://alazar-des.github.io/resume-builder"
+  "homepage": "https://alazar-des.github.io/resume-builder"
 }
