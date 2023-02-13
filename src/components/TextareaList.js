@@ -3,117 +3,97 @@ import uuid from "react-uuid";
 
 import "./TextareaList.css";
 
-export default class TextareaList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.listTextArea = React.createRef();
-    this.onChange = this.onChange.bind(this);
-    this.onEnter = this.onEnter.bind(this);
-    this.onBackspace = this.onBackspace.bind(this);
-  }
-
-  onChange(event, id) {
+const TextareaList = (props) => {
+  const onChange = (event, id) => {
     const value = event.target.value;
     if (value[value.length - 1] !== "\n") {
-      const textArea = this.props.textAreaList.map((t) => {
+      const textArea = props.textAreaList.map((t) => {
         if (t.id === id) {
           t.value = value;
-          t.rows = Math.ceil(value.length / this.props.cols);
+          t.rows = Math.ceil(value.length / props.cols);
         }
         return t;
       });
       const e = {
         target: {
-          name: this.props.name,
+          name: props.name,
           value: textArea,
         },
       };
-      this.props.onChange(e, this.props.index);
-    }
-  }
 
-  onEnter(event, id) {
-    const index = this.props.textAreaList.findIndex((ta) => ta.id === id) + 1;
-    this.listTextArea.current = index;
+      props.onChange(e, props.index);
+    }
+  };
+
+  const onEnter = (event, id) => {
+    const index = props.textAreaList.findIndex((ta) => ta.id === id) + 1;
+
     const li = {
       id: uuid(),
       rows: "1",
       value: "",
     };
     let newArr = [
-      ...this.props.textAreaList.slice(0, index),
+      ...props.textAreaList.slice(0, index),
       li,
-      ...this.props.textAreaList.slice(index),
+      ...props.textAreaList.slice(index),
     ];
     const e = {
       target: {
-        name: this.props.name,
+        name: props.name,
         value: newArr,
       },
     };
-    this.props.onChange(e, this.props.index);
-  }
 
-  onBackspace(event, id) {
-    if (this.props.textAreaList.length > 1) {
-      const index = this.props.textAreaList.findIndex((ta) => ta.id === id);
-      this.listTextArea.current = index - 1;
+    props.onChange(e, props.index);
+  };
+
+  const onBackspace = (event, id) => {
+    if (props.textAreaList.length > 1) {
+      const index = props.textAreaList.findIndex((ta) => ta.id === id);
+
       let newArr = [
-        ...this.props.textAreaList.slice(0, index),
-        ...this.props.textAreaList.slice(index + 1),
+        ...props.textAreaList.slice(0, index),
+        ...props.textAreaList.slice(index + 1),
       ];
       const e = {
         target: {
-          name: this.props.name,
+          name: props.name,
           value: newArr,
         },
       };
-      this.props.onChange(e, this.props.index);
-    }
-  }
 
-  /*
-  getSnapshotBeforeUpdate(prevProps, prevState) {
-    if (prevProps.textAreaList.length !== this.props.textAreaList.length) {
-      return this.listTextArea.current;
+      props.onChange(e, props.index);
     }
-    return null;
-  }
+  };
 
-  componentDidUpdate(prevProps, prevState, snapShot) {
-    if (snapShot !== null) {
-      const nodeList = document.querySelectorAll(".textarea-list li textarea");
-      nodeList[snapShot].focus();
-    }
-  }*/
+  return (
+    <ul className="textarea-list">
+      {props.textAreaList.map((ta) => {
+        return (
+          <li key={ta.id}>
+            <textarea
+              id={ta.id}
+              cols={props.cols}
+              rows={ta.rows}
+              value={ta.value}
+              placeholder={props.placeholder}
+              onChange={(e) => onChange(e, ta.id)}
+              onKeyDown={(e) =>
+                e.key === "Enter" && e.target.value
+                  ? onEnter(e, ta.id)
+                  : e.key === "Backspace" && !e.target.value
+                  ? onBackspace(e, ta.id)
+                  : null
+              }
+            >
+              {props.placeholder}
+            </textarea>
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
 
-  render() {
-    return (
-      <ul className="textarea-list">
-        {this.props.textAreaList.map((ta) => {
-          return (
-            <li key={ta.id}>
-              <textarea
-                id={ta.id}
-                cols={this.props.cols}
-                rows={ta.rows}
-                value={ta.value}
-                placeholder={this.props.placeholder}
-                onChange={(e) => this.onChange(e, ta.id)}
-                onKeyDown={(e) =>
-                  e.key === "Enter" && e.target.value
-                    ? this.onEnter(e, ta.id)
-                    : e.key === "Backspace" && !e.target.value
-                    ? this.onBackspace(e, ta.id)
-                    : null
-                }
-              >
-                {this.props.placeholder}
-              </textarea>
-            </li>
-          );
-        })}
-      </ul>
-    );
-  }
-}
+export default TextareaList;

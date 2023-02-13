@@ -7,8 +7,6 @@ import {
   StyleSheet,
   Link,
   Font,
-  Svg,
-  Path,
 } from "@react-pdf/renderer";
 
 // Create styles
@@ -306,7 +304,8 @@ const MyDocument = (props) => (
           <View style={styles.detailContainer} key={project.id}>
             <View style={styles.projectTitleContainer}>
               <Text style={styles.projectTitle}>{project.projectName}</Text>
-              <Text style={styles.duration}>{"  ("}
+              <Text style={styles.duration}>
+                {"  ("}
                 {project.startDate
                   ? project.startDate.toLocaleDateString()
                   : ""}{" "}
@@ -316,7 +315,7 @@ const MyDocument = (props) => (
                   : project.endDate
                   ? project.endDate.toLocaleDateString()
                   : ""}
-                  {")"}
+                {")"}
               </Text>
             </View>
             <View style={styles.achievments}>

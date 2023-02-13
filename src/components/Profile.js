@@ -3,47 +3,42 @@ import "./Profile.css";
 
 import TextArea from "./TextArea";
 
-export default class Profile extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onChange = this.onChange.bind(this);
-  }
+const Profile = (props) => {
+  const onChange = (e) => {
+    const profile = { ...props.profile, [e.target.name]: e.target.value };
+    props.onContentChange("profile", profile);
+  };
 
-  onChange(e) {
-    const profile = { ...this.props.profile, [e.target.name]: e.target.value };
-    this.props.onContentChange("profile", profile);
-  }
+  return (
+    <fieldset className="profile">
+      <input
+        type="text"
+        placeholder="Name"
+        name="name"
+        id="name"
+        value={props.profile.name}
+        onChange={onChange}
+      />
+      <br />
+      <input
+        type="text"
+        name="professionalTitle"
+        placeholder="Professional Title"
+        id="professional-title"
+        value={props.profile.professionalTitle}
+        onChange={onChange}
+      />
+      <br />
+      <TextArea
+        name="professionalSummery"
+        placeholder="professional summery"
+        cols="120"
+        id="summery"
+        value={props.profile.professionalSummery}
+        onChange={onChange}
+      />
+    </fieldset>
+  );
+};
 
-  render() {
-    return (
-      <fieldset className="profile">
-        <input
-          type="text"
-          placeholder="Name"
-          name="name"
-          id="name"
-          value={this.props.profile.name}
-          onChange={this.onChange}
-        />
-        <br />
-        <input
-          type="text"
-          name="professionalTitle"
-          placeholder="Professional Title"
-          id="professional-title"
-          value={this.props.profile.professionalTitle}
-          onChange={this.onChange}
-        />
-        <br />
-        <TextArea
-          name="professionalSummery"
-          placeholder="professional summery"
-          cols="120"
-          id="summery"
-          value={this.props.profile.professionalSummery}
-          onChange={this.onChange}
-        />
-      </fieldset>
-    );
-  }
-}
+export default Profile;

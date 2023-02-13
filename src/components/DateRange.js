@@ -3,72 +3,61 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./DataRange.css";
 
-export default class DateRange extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onChange = this.onChange.bind(this);
-  }
-
-  onChange = (name, value) => {
+const DateRange = (props) => {
+  const onChange = (name, value) => {
     const e = {
       target: {
         name,
         value,
       },
     };
-    this.props.onChange(e, this.props.index);
+    props.onChange(e, props.index);
   };
 
-  render() {
-    return (
-      <div className="range-container">
-        <div className="datepicker-container">
+  return (
+    <div className="range-container">
+      <div className="datepicker-container">
+        <DatePicker
+          selected={props.startDate}
+          placeholderText={props.placeholder}
+          dateFormat={props.dateFormat}
+          showMonthYearPicker={props.monthYearPicker}
+          className={props.monthYearPicker ? "month-year" : "day-month-year"}
+          onChange={(date) => onChange("startDate", date)}
+        />
+        <div className="to"> - </div>
+        {!props.present ? (
           <DatePicker
-            selected={this.props.startDate}
-            placeholderText={this.props.placeholder}
-            dateFormat={this.props.dateFormat}
-            showMonthYearPicker={this.props.monthYearPicker}
-            className={
-              this.props.monthYearPicker ? "month-year" : "day-month-year"
-            }
-            onChange={(date) => this.onChange("startDate", date )}
+            selected={props.endDate}
+            placeholderText={props.placeholder}
+            dateFormat={props.dateFormat}
+            showMonthYearPicker={props.monthYearPicker}
+            className={props.monthYearPicker ? "month-year" : "day-month-year"}
+            minDate={props.startDate}
+            name="endDate"
+            onChange={(date) => onChange("endDate", date)}
           />
-          <div className="to"> - </div>
-          {!this.props.present ? (
-            <DatePicker
-              selected={this.props.endDate}
-              placeholderText={this.props.placeholder}
-              dateFormat={this.props.dateFormat}
-              showMonthYearPicker={this.props.monthYearPicker}
-              className={
-                this.props.monthYearPicker ? "month-year" : "day-month-year"
-              }
-              minDate={this.props.startDate}
-              name="endDate"
-              onChange={(date) => this.onChange("endDate", date )}
-            />
-          ) : (
-            <input
-              type="text"
-              value="Present"
-              onChange={this.onChange}
-              className={
-                this.props.monthYearPicker ? "month-year" : "day-month-year"
-              }
-            />
-          )}
-        </div>
-        <div className="present">
+        ) : (
           <input
-            type="checkbox"
-            checked={this.props.present}
-            onChange={(e) => this.onChange("present", e.target.checked )}
+            type="text"
+            value="Present"
+            onChange={onChange}
+            className={props.monthYearPicker ? "month-year" : "day-month-year"}
           />
-          <label htmlFor="checkbox" className="checkbox-label">
-            Present
-          </label>
-        </div>
+        )}
       </div>
-    );
-  }
-}
+      <div className="present">
+        <input
+          type="checkbox"
+          checked={props.present}
+          onChange={(e) => onChange("present", e.target.checked)}
+        />
+        <label htmlFor="checkbox" className="checkbox-label">
+          Present
+        </label>
+      </div>
+    </div>
+  );
+};
+
+export default DateRange;

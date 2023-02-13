@@ -1,16 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default class Textarea extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      textareaRows: "1",
-      value: "",
-    };
-    this.onTextareaChange = this.onTextareaChange.bind(this);
-  }
+const Textarea = (props) => {
+  const [value, setValue] = useState("");
+  const [textareaRows, setTextAreaRows] = useState("1");
 
-  onTextareaChange(e) {
+  const { name, id, cols, placeholder } = props;
+
+  const onTextareaChange = (e) => {
     let value = e.target.value;
     let cols = e.target.cols;
     let rows = 0;
@@ -19,25 +15,22 @@ export default class Textarea extends React.Component {
       r = r === 0 ? 1 : r;
       rows += r;
     });
-    this.setState({
-      textareaRows: rows + "",
-      value: value,
-    });
-    this.props.onChange(e, this.props.index)
-  }
+    setValue(value);
+    setTextAreaRows(rows + "");
+    props.onChange(e, props.index);
+  };
 
-  render() {
-    const { name, id, cols, placeholder } = this.props;
-    return (
-      <textarea
-        name={name}
-        id={id}
-        cols={cols}
-        rows={this.state.textareaRows}
-        placeholder={placeholder}
-        value={this.state.value}
-        onChange={this.onTextareaChange}
-      ></textarea>
-    );
-  }
-}
+  return (
+    <textarea
+      name={name}
+      id={id}
+      cols={cols}
+      rows={textareaRows}
+      placeholder={placeholder}
+      value={value}
+      onChange={onTextareaChange}
+    ></textarea>
+  );
+};
+
+export default Textarea;
